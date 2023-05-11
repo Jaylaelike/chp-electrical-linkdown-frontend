@@ -16,7 +16,7 @@
 
       <div class="q-gutter-md row items-start">
         <q-date v-model="startdate" mask="YYYY-MM-DD HH:mm" color="teal" />
-        <q-time v-model="startdate" mask="YYYY-MM-DD HH:mm" color="teal" />
+        <q-time v-model="startdate" format24h mask="YYYY-MM-DD HH:mm" color="teal" />
       </div>
 
       <q-badge color="red" label="วันที่เวลาสิ้นสุด">
@@ -25,7 +25,7 @@
 
       <div class="q-gutter-md row items-start">
         <q-date v-model="enddate" mask="YYYY-MM-DD HH:mm" color="red" />
-        <q-time v-model="enddate" mask="YYYY-MM-DD HH:mm" color="red" />
+        <q-time v-model="enddate" format24h mask="YYYY-MM-DD HH:mm" color="red" />
       </div>
 
 
