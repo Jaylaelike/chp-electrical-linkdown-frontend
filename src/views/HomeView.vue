@@ -70,6 +70,7 @@ import router from '../router';
 import { useQuasar } from 'quasar'
 import ElecHomeComponent from '../components/ElecHomeComponent.vue'
 
+
 const $q = useQuasar()
 
 

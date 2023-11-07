@@ -3,10 +3,10 @@
 
     <q-from @submit="onSubmit" class="q-gutter-md">
       <q-select filled v-model="station" label="สถานี" bg-color="blue-2"
-        :options="['ชุมพร', 'ระนอง', 'ประจวบคีรีขันธ์', 'หัวหิน', 'ทับสะแก', 'ปากน้ำปราณ', 'เพชรบุรี', 'หลังสวน', 'สวี', 'กระบุรี', 'กะเปอร์', 'พะโต๊ะ', 'คุระบุรี', 'ท่าแซะ']" />
-      <q-select filled v-model="typestaion" label="ประเภทสถานี" bg-color="green-2" :options="['หลัก', 'เสริม']" />
+        :options=  StationName />
+      <q-select filled v-model="typestaion" label="ประเภทสถานี" bg-color="green-2" :options= StationTypes />
       <q-select filled v-model="facility" label="Facility" bg-color="yellow-2"
-        :options="['ส.ส.ท.', 'ททบ', 'กปส', 'อสมท']" />
+        :options=  StationFalcility />
 
 
       <q-badge color="teal" label="วันที่เวลาเริ่มต้น">
@@ -34,9 +34,9 @@
 
       <q-input v-model="detail" label="รายละเอียด" />
       <q-select filled v-model="downtime" label="การออกอากาศ" bg-color="red-2"
-        :options="['ออกอากาศปกติ', 'ออกอากาศไม่ได้']" />
+        :options= OnAirTypes />
       <q-select filled v-model="users" label="ชื่อผู้บันทึก" bg-color="orange-2"
-        :options="['นายประเสริฐ นามเวช', 'นายศิริพงษ์ ศิริวัฒน์', 'นายนาคินทร์ ชูมณี', 'นายสิทธิชัย มากวิสัย', 'นายสิทธิชัย สังข์แก้ว', 'นายกิตติพงษ์ นาคสังข์', 'ธนฤทธิ์ ทิพรัตน์', 'นายพงศกร อุ่นแก้ว']" />
+        :options= NamePeoples />
 
       <q-btn @click="onSubmit" label="ส่งข้อมูล" type="submit" color="positive" icon="check_circle_outline"
         direction="right" />
@@ -54,6 +54,14 @@
 import { ref } from 'vue';
 import router from '../router';
 import { useQuasar, date } from 'quasar'
+
+import { NamePeoples } from './data/Names';
+import { StationName } from './data/Station';
+import { StationTypes } from './data/StationTypes';
+import { StationFalcility } from './data/StationFalcility';
+import { OnAirTypes } from './data/OnAirTypes';
+
+
 
 
 

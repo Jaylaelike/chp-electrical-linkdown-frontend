@@ -1,0 +1,1 @@
+export const StationTypes = ["หลัก", "เสริม"];
