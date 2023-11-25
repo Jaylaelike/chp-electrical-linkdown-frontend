@@ -53,18 +53,20 @@
 import { ref } from 'vue';
 import router from '../router';
 import { useQuasar, date } from 'quasar'
-
+import { watch } from 'vue';
 import { NamePeoples } from './data/Names';
 import { StationName } from './data/Station';
 import { StationTypes } from './data/StationTypes';
 import { StationFalcility } from './data/StationFalcility';
 import { OnAirTypes } from './data/OnAirTypes';
+import { useRoute } from 'vue-router';
 
-
+const route = useRoute()
 const $q = useQuasar()
 const timeStamp = Date.now()
 const $formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD HH:mm')
 
+const stations = ref(route.params.id)
 const station = ref('')
 const typestaion = ref('')
 const facility = ref('')
@@ -73,6 +75,39 @@ const enddate = ref($formattedString)
 const detail = ref('ไฟฟ้าดับ ฝนตกหนัก ต้นไม้ล้ม')
 const users = ref('')
 const downtime = ref('')
+
+watch(() => station.value, (val) => {
+  stations.value = val
+  facility.value = ''
+  typestaion.value = ''
+  fetchData()
+})
+
+const fetchData = () => {
+  fetch(import.meta.env.VITE_API_URL + "/selectors/" + station.value)
+    .then(res => res.json())
+    .then((result) => {
+
+
+      const resultFacility = result.data[0].facility
+
+
+
+if (resultFacility.length === 0) {
+// clear previous value if no data
+
+  facility.value =  'ไม่มีข้อมูล'
+}
+else {
+  facility.value = resultFacility
+  typestaion.value = result.data[0].typestaion
+}
+
+
+    })
+
+}
+
 
 
 

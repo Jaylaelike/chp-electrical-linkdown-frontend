@@ -2,11 +2,9 @@
   <div class="q-pa-md" style="max-width: 400px">
 
     <q-from @submit="onSubmit" class="q-gutter-md">
-      <q-select filled v-model="station" label="สถานี" bg-color="blue-2"
-        :options=  StationName />
-      <q-select filled v-model="typestaion" label="ประเภทสถานี" bg-color="green-2" :options= StationTypes />
-      <q-select filled v-model="facility" label="Facility" bg-color="yellow-2"
-        :options=  StationFalcility />
+      <q-select filled v-model="station" label="สถานี" bg-color="blue-2" :options=StationName />
+      <q-select filled v-model="typestaion" label="ประเภทสถานี" bg-color="green-2" :options=StationTypes />
+      <q-select filled v-model="facility" label="Facility" bg-color="yellow-2" :options=StationFalcility />
 
 
       <q-badge color="teal" label="วันที่เวลาเริ่มต้น">
@@ -33,10 +31,8 @@
 
 
       <q-input v-model="detail" label="รายละเอียด" />
-      <q-select filled v-model="downtime" label="การออกอากาศ" bg-color="red-2"
-        :options= OnAirTypes />
-      <q-select filled v-model="users" label="ชื่อผู้บันทึก" bg-color="orange-2"
-        :options= NamePeoples />
+      <q-select filled v-model="downtime" label="การออกอากาศ" bg-color="red-2" :options=OnAirTypes />
+      <q-select filled v-model="users" label="ชื่อผู้บันทึก" bg-color="orange-2" :options=NamePeoples />
 
       <q-btn @click="onSubmit" label="ส่งข้อมูล" type="submit" color="positive" icon="check_circle_outline"
         direction="right" />
@@ -51,24 +47,27 @@
 
 <script setup>
 
-import { ref } from 'vue';
+import { effect, ref } from 'vue';
 import router from '../router';
 import { useQuasar, date } from 'quasar'
+import { useRoute } from 'vue-router';
 
 import { NamePeoples } from './data/Names';
 import { StationName } from './data/Station';
 import { StationTypes } from './data/StationTypes';
 import { StationFalcility } from './data/StationFalcility';
 import { OnAirTypes } from './data/OnAirTypes';
+import { watch } from 'vue';
 
 
 
 
-
+const route = useRoute()
 const $q = useQuasar()
 const timeStamp = Date.now()
 const $formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD HH:mm')
 
+const stations = ref(route.params.id)
 const station = ref('')
 const typestaion = ref('')
 const facility = ref('')
@@ -77,6 +76,59 @@ const enddate = ref($formattedString)
 const detail = ref('ไฟฟ้าดับ ฝนตกหนัก ต้นไม้ล้ม')
 const users = ref('')
 const downtime = ref('')
+
+
+//
+//bind value station and stations stations.value = station.value to use in fecthData
+
+watch(() => station.value, (val) => {
+  stations.value = val
+  facility.value = ''
+  typestaion.value = ''
+  fetchData()
+})
+
+
+
+
+
+
+const fetchData = () => {
+  fetch(import.meta.env.VITE_API_URL + "/selectors/" + station.value)
+    .then(res => res.json())
+    .then((result) => {
+
+
+      const resultFacility = result.data[0].facility
+
+
+
+if (resultFacility.length === 0) {
+// clear previous value if no data
+
+  facility.value =  'ไม่มีข้อมูล'
+}
+else {
+  facility.value = resultFacility
+  typestaion.value = result.data[0].typestaion
+}
+
+
+    })
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 const onSubmit = () => {
@@ -120,7 +172,7 @@ const onSubmit = () => {
         })
         .catch(error => console.log('error', error));
 
-        requestDatasendLineNotify()   
+      requestDatasendLineNotify()
     }
 
   ).onOk(() => {
