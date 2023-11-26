@@ -94,21 +94,6 @@ const fetchData = () => {
 
         facility.value = 'ไม่มีข้อมูล'
       }
-
-      if (station.value === 'กระบุรี') {
-        facility.value = result.data[1].facility
-        typestaion.value = result.data[1].typestaion
-
-      }
-
-      if (station.value === 'ปากน้ำปราณ') {
-        facility.value = result.data[0].facility
-        typestaion.value = result.data[0].typestaion
-      }
-      if (station.value === 'สวี') {
-        facility.value = result.data[1].facility
-        typestaion.value = result.data[1].typestaion
-      }
       else {
         facility.value = resultFacility
         typestaion.value = result.data[0].typestaion
