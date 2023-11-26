@@ -84,7 +84,7 @@ watch(() => station.value, (val) => {
 })
 
 const fetchData = () => {
-  fetch(import.meta.env.VITE_API_URL + "/selectors/" + station.value)
+  fetch(import.meta.env.VITE_API_URL + "nt/selectors/" + station.value)
     .then(res => res.json())
     .then((result) => {
 
