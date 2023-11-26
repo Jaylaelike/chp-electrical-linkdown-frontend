@@ -99,7 +99,11 @@ const fetchData = () => {
         facility.value = result.data[1].facility
         typestaion.value = result.data[1].typestaion
 
+      }
 
+      if (station.value === 'ปากน้ำปราณ') {
+        facility.value = result.data[0].facility
+        typestaion.value = result.data[0].typestaion
       }
       if (station.value === 'สวี') {
         facility.value = result.data[1].facility
