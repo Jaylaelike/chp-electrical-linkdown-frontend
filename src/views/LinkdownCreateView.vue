@@ -97,11 +97,13 @@ const fetchData = () => {
 
       if (station.value === 'กระบุรี') {
         facility.value = result.data[1].facility
+        typestaion.value = result.data[1].typestaion
 
 
       }
-      if(station.value === 'สวี'){
+      if (station.value === 'สวี') {
         facility.value = result.data[1].facility
+        typestaion.value = result.data[1].typestaion
       }
       else {
         facility.value = resultFacility
