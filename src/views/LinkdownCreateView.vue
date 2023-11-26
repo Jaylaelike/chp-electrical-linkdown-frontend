@@ -2,11 +2,9 @@
   <div class="q-pa-md" style="max-width: 400px">
 
     <q-from @submit="onSubmit" class="q-gutter-md">
-      <q-select filled v-model="station" label="สถานี" bg-color="blue-2"
-        :options= StationName />
-      <q-select filled v-model="typestaion" label="ประเภทสถานี" bg-color="green-2" :options= StationTypes />
-      <q-select filled v-model="facility" label="Facility" bg-color="yellow-2"
-        :options= StationFalcility />
+      <q-select filled v-model="station" label="สถานี" bg-color="blue-2" :options=StationName />
+      <q-select filled v-model="typestaion" label="ประเภทสถานี" bg-color="green-2" :options=StationTypes />
+      <q-select filled v-model="facility" label="Facility" bg-color="yellow-2" :options=StationFalcility />
 
 
       <q-badge color="teal" label="วันที่เวลาเริ่มต้น">
@@ -33,10 +31,8 @@
 
 
       <q-input v-model="detail" label="รายละเอียด" />
-      <q-select filled v-model="downtime" label="การออกอากาศ" bg-color="red-2"
-        :options= OnAirTypes />
-      <q-select filled v-model="users" label="ชื่อผู้บันทึก" bg-color="orange-2"
-        :options= NamePeoples />
+      <q-select filled v-model="downtime" label="การออกอากาศ" bg-color="red-2" :options=OnAirTypes />
+      <q-select filled v-model="users" label="ชื่อผู้บันทึก" bg-color="orange-2" :options=NamePeoples />
 
       <q-btn @click="onSubmit" label="ส่งข้อมูล" type="submit" color="positive" icon="check_circle_outline"
         direction="right" />
@@ -93,15 +89,24 @@ const fetchData = () => {
 
 
 
-if (resultFacility.length === 0) {
-// clear previous value if no data
+      if (resultFacility.length === 0) {
+        // clear previous value if no data
 
-  facility.value =  'ไม่มีข้อมูล'
-}
-else {
-  facility.value = resultFacility
-  typestaion.value = result.data[0].typestaion
-}
+        facility.value = 'ไม่มีข้อมูล'
+      }
+
+      if (station.value === 'กระบุรี') {
+        facility.value = result.data[1].facility
+
+
+      }
+      if(station.value === 'สวี'){
+        facility.value = result.data[1].facility
+      }
+      else {
+        facility.value = resultFacility
+        typestaion.value = result.data[0].typestaion
+      }
 
 
     })
@@ -152,7 +157,7 @@ const onSubmit = () => {
       })
       .catch(error => console.log('error', error));
 
-      requestDatasendLineNotify()   
+    requestDatasendLineNotify()
 
   }).onOk(() => {
     // console.log('>>>> second OK catcher')
