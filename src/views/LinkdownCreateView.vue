@@ -148,7 +148,8 @@ const onSubmit = () => {
       })
       .catch(error => console.log('error', error));
 
-    requestDatasendLineNotify()
+  
+      fetchDataLineNotify()
 
   }).onOk(() => {
     // console.log('>>>> second OK catcher')
@@ -161,13 +162,33 @@ const onSubmit = () => {
 
 }
 
+const lineNotifyValue = ref(false)
+
+async function fetchDataLineNotify() {
+  const response = await fetch('https://chp-electrical-linkdown-server.vercel.app/api/get/notify');
+  const data = await response.json();
+  console.log(data.state);
+  lineNotifyValue.value = data.state;
+
+  //check if lineNotifyValue is false  to requestDatasendLineNotify
+
+  if (lineNotifyValue.value === false) {
+    requestDatasendLineNotify()
+  }
+  else {
+    console.log(lineNotifyValue.value);
+  }
+
+}
+
+
 const requestDatasendLineNotify = () => {
   var requestOptions = {
     method: 'GET',
     redirect: 'follow'
   };
 
-  fetch("https://linenotifysubmitthaipbs.sittichaimarkwi.repl.co/nt", requestOptions)
+  fetch("https://submit-from-line-notify.vercel.app/nt", requestOptions)
     .then(response => response.json())
     .then(result => console.log(result))
     .catch(error => console.log('error', error));

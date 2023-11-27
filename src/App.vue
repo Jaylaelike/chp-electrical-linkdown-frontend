@@ -18,6 +18,7 @@ import { RouterView } from 'vue-router'
         <q-tabs>
           <q-route-tab to="/" label="Electrical" />
           <q-route-tab to="/link" label="Link NT" />
+          <q-route-tab to="/linenotify" label="Line Notify" />
 
         </q-tabs>
       </q-toolbar>

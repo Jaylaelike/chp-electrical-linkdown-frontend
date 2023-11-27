@@ -58,8 +58,11 @@ import { StationTypes } from './data/StationTypes';
 import { StationFalcility } from './data/StationFalcility';
 import { OnAirTypes } from './data/OnAirTypes';
 import { watch } from 'vue';
+import { useLineNotifyStore } from './LineNotify.vue';
 
 
+// Remove the line below
+// export default setup;
 
 
 const route = useRoute()
@@ -103,15 +106,15 @@ const fetchData = () => {
 
 
 
-if (resultFacility.length === 0) {
-// clear previous value if no data
+      if (resultFacility.length === 0) {
+        // clear previous value if no data
 
-  facility.value =  'ไม่มีข้อมูล'
-}
-else {
-  facility.value = resultFacility
-  typestaion.value = result.data[0].typestaion
-}
+        facility.value = 'ไม่มีข้อมูล'
+      }
+      else {
+        facility.value = resultFacility
+        typestaion.value = result.data[0].typestaion
+      }
 
 
     })
@@ -172,7 +175,8 @@ const onSubmit = () => {
         })
         .catch(error => console.log('error', error));
 
-      requestDatasendLineNotify()
+
+      fetchDataLineNotify()
     }
 
   ).onOk(() => {
@@ -205,19 +209,57 @@ const onSubmit = () => {
 //     });
 // }
 
+//check if lineNotifyValue is true  to requestDatasendLineNotify
+
+//crete fetch data from api to check lineNotifyValue
+const lineNotifyValue = ref(false)
+
+async function fetchDataLineNotify() {
+  const response = await fetch('https://chp-electrical-linkdown-server.vercel.app/api/get/notify');
+  const data = await response.json();
+  console.log(data.state);
+  lineNotifyValue.value = data.state;
+
+  //check if lineNotifyValue is false  to requestDatasendLineNotify
+
+  if (lineNotifyValue.value === false) {
+    requestDatasendLineNotify()
+  }
+  else {
+    console.log(lineNotifyValue.value);
+  }
+
+}
+
+
+
+
+
+
+// const requestCheckLineNotify = () => {
+//   if (lineNotifyValue === false) {
+//     console.log(lineNotifyValue);
+
+//   }
+// }
+
+
+
+
+
+
 const requestDatasendLineNotify = () => {
   var requestOptions = {
     method: 'GET',
     redirect: 'follow'
   };
 
-  fetch("https://linenotifysubmitthaipbs.sittichaimarkwi.repl.co/electric", requestOptions)
+  fetch("https://submit-from-line-notify.vercel.app/electric", requestOptions)
     .then(response => response.json())
     .then(result => console.log(result))
     .catch(error => console.log('error', error));
 
 }
-//requestDatasendLineNotify()
 
 
 
